@@ -1,0 +1,98 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { helpLinks, site, wledSections } from '../data/site';
+
+const pageTitle = `WLED | ${site.name}`;
+const pageDescription = 'A beginner-friendly introduction to WLED and the help links Arcline recommends after installation.';
+---
+
+<SiteLayout title={pageTitle} description={pageDescription} image={site.primaryImage}>
+	<main class="page-shell">
+		<section class="page-hero narrow-hero">
+			<p class="eyebrow">WLED</p>
+			<h1>A simple explanation for people who just want the lights to work well.</h1>
+			<p class="lede">
+				WLED is the control layer behind the installs I build. It gives you presets, schedules,
+				color control, grouped scenes, and future flexibility without making the system feel locked down.
+			</p>
+		</section>
+
+		<section class="info-grid">
+			{
+				wledSections.map((section) => (
+					<article class="card info-card">
+						<h2>{section.title}</h2>
+						<p>{section.body}</p>
+					</article>
+				))
+			}
+		</section>
+
+		<section class="card faq-card">
+			<h2>What Arcline handles for you</h2>
+			<ul class="check-list">
+				<li>Controller placement and wiring strategy</li>
+				<li>Mounting and power routing</li>
+				<li>Initial Wi-Fi sync and basic WLED setup</li>
+				<li>Starter presets and scheduling guidance</li>
+				<li>Remote handoff so app control is optional</li>
+			</ul>
+		</section>
+
+		<section class="card links-card">
+			<h2>Helpful links</h2>
+			<div class="help-grid">
+				{
+					helpLinks.map((link) => (
+						<a class="help-link" href={link.href} target="_blank" rel="noreferrer">
+							<h3>{link.title}</h3>
+							<p>{link.description}</p>
+						</a>
+					))
+				}
+			</div>
+		</section>
+	</main>
+</SiteLayout>
+
+<style>
+	.narrow-hero {
+		max-width: 54rem;
+	}
+	.info-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+	.info-card h2,
+	.faq-card h2,
+	.links-card h2 {
+		font-size: 1.45rem;
+		margin-bottom: 0.85rem;
+	}
+	.help-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: 1rem;
+	}
+	.help-link {
+		display: block;
+		padding: 1.25rem;
+		border-radius: 1rem;
+		background: rgba(255, 255, 255, 0.04);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		color: inherit;
+	}
+	.help-link h3 {
+		font-size: 1rem;
+		margin-bottom: 0.5rem;
+	}
+	.help-link p {
+		margin: 0;
+	}
+	@media (max-width: 780px) {
+		.info-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

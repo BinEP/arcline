@@ -1,23 +1,28 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import SiteLayout from '../../layouts/SiteLayout.astro';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
+import { articlePreview, site } from '../../data/site';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const pageTitle = `Articles | ${site.name}`;
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
+
+<SiteLayout title={pageTitle} description={articlePreview.description} image="/continuous.JPG">
+	<main class="page-shell articles-page">
+		<section class="page-hero narrow-hero">
+			<p class="eyebrow">Articles</p>
+			<h1>{articlePreview.title}</h1>
+			<p class="lede">{articlePreview.description}</p>
+		</section>
+		<section>
+			<style>
 			main {
-				width: 960px;
+				width: min(1180px, calc(100% - 2rem));
 			}
 			ul {
 				display: flex;
@@ -84,28 +89,34 @@ const posts = (await getCollection('blog')).sort(
 				}
 			}
 		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									<img width={720} height={360} src={post.data.heroImage} alt="" />
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+			{
+				posts.length > 0 ? (
+					<ul>
+						{
+							posts.map((post) => (
+								<li>
+									<a href={`/blog/${post.id}/`}>
+										<img width={720} height={360} src={post.data.heroImage} alt="" />
+										<h4 class="title">{post.data.title}</h4>
+										<p class="date">
+											<FormattedDate date={post.data.pubDate} />
+										</p>
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				) : (
+					<article class="card empty-state">
+						<h2>Project writeups are coming next.</h2>
+						<p>
+							This section will turn into install breakdowns, seasonal lighting ideas, and plain-English
+							WLED guides. For now, the real work is on the main pages.
+						</p>
+						<p><a href="/examples">Browse the installation examples instead.</a></p>
+					</article>
+				)
+			}
+		</section>
+	</main>
+</SiteLayout>

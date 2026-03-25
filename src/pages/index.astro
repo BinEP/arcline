@@ -1,50 +1,249 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { benefits, featuredProjects, processSteps, projects, site } from '../data/site';
+
+const highlightedProjects = projects.filter((project) => featuredProjects.includes(project.slug));
+const pageTitle = `${site.name} | WLED lighting installs in ${site.serviceArea}`;
+const pageDescription = site.description;
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
+<SiteLayout title={pageTitle} description={pageDescription} image={site.primaryImage} bodyClass="home-page">
+	<main>
+		<section class="hero-shell">
+			<div class="hero-copy">
+				<p class="eyebrow">Synced WLED installs in {site.serviceArea}</p>
+				<h1>Custom lighting for houses, shelves, cabinets, offices, and holiday displays.</h1>
+				<p class="lede">{site.description}</p>
+				<div class="hero-actions">
+					<a class="button button-primary" href={site.phoneHref}>Call {site.phone}</a>
+					<a class="button button-secondary" href="/examples">See examples</a>
+				</div>
+				<ul class="hero-points">
+					{benefits.map((benefit) => <li>{benefit}</li>)}
+				</ul>
+			</div>
+			<div class="hero-media card media-card">
+				<video controls playsinline autoplay muted loop poster="/continuous.JPG">
+					<source src="/boulevard.MOV" />
+				</video>
+			</div>
+		</section>
+
+		<section class="page-shell home-grid">
+			<div class="card intro-card">
+				<p class="eyebrow">What Arcline does</p>
+				<h2>Lighting that feels tied together instead of pieced together.</h2>
+				<p>
+					I build WLED-based systems that can stretch from under-cabinet lighting to full exterior setups.
+					The goal is not just bright LEDs. It is a finished install that looks intentional, stays usable,
+					and can sync across the whole property.
+				</p>
+			</div>
+			<div class="card contact-card">
+				<p class="eyebrow">Start with a conversation</p>
+				<h2>Tell me what you want to light.</h2>
+				<p>
+					House lights, boulevard trees, office accents, display shelves, and holiday setups all start the
+					 same way: what should stand out, how clean should the hardware look, and how simple should control be?
+				</p>
+				<div class="stacked-links">
+					<a href={site.phoneHref}>{site.phone}</a>
+					<a href={site.emailHref}>{site.email}</a>
+					<a href={site.blueskyUrl} target="_blank" rel="noreferrer">Follow on Bluesky</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="page-shell section-block">
+			<div class="section-heading">
+				<p class="eyebrow">How the setup works</p>
+				<h2>Built around clean wiring, easy control, and future flexibility.</h2>
+			</div>
+			<div class="steps-grid">
+				{processSteps.map((step) => (
+					<article class="card step-card">
+						<h3>{step.title}</h3>
+						<p>{step.description}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="page-shell section-block">
+			<div class="section-heading split-heading">
+				<div>
+					<p class="eyebrow">Featured work</p>
+					<h2>Examples from real installs.</h2>
+				</div>
+				<a class="text-link" href="/examples">View all 9 projects</a>
+			</div>
+			<div class="feature-grid">
+				{
+					highlightedProjects.map((project) => (
+						<article class="card feature-card">
+							<div class="feature-media">
+								{project.media[0]?.type === 'image' ? (
+									<img src={project.media[0].src} alt={project.media[0].alt} loading="lazy" />
+								) : (
+									<video controls playsinline preload="metadata">
+										<source src={project.media[0]?.src} />
+									</video>
+								)}
+							</div>
+							<p class="eyebrow">{project.kicker}</p>
+							<h3>{project.title}</h3>
+							<p>{project.summary}</p>
+						</article>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="page-shell section-block final-cta card">
+			<p class="eyebrow">Beginner-friendly handoff</p>
+			<h2>WLED gives you control without locking you into one look.</h2>
 			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
+				If you are curious how WLED works, what it feels like to use, or how syncing multiple installs works,
+				there is a plain-English guide ready for you.
 			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+			<div class="hero-actions">
+				<a class="button button-primary" href="/wled">Read the WLED intro</a>
+				<a class="button button-secondary" href="/light-styles">Compare light styles</a>
+			</div>
+		</section>
+	</main>
+</SiteLayout>
+
+<style>
+	.hero-shell {
+		width: min(1240px, calc(100% - 2rem));
+		margin: 0 auto;
+		padding: 4.5rem 0 2rem;
+		display: grid;
+		grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+		gap: 1.5rem;
+		align-items: stretch;
+	}
+	.hero-copy h1 {
+		max-width: 11ch;
+		font-size: clamp(3.3rem, 9vw, 6.4rem);
+		line-height: 0.95;
+		letter-spacing: -0.05em;
+	}
+	.lede {
+		max-width: 43rem;
+		font-size: 1.15rem;
+		color: var(--text-muted);
+	}
+	.hero-actions {
+		display: flex;
+		gap: 0.85rem;
+		flex-wrap: wrap;
+		margin: 1.5rem 0;
+	}
+	.hero-points {
+		max-width: 40rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.85rem 1rem;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+	.hero-points li {
+		padding: 1rem 1rem 1rem 1.1rem;
+		border-radius: 1rem;
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+	.media-card {
+		padding: 0.7rem;
+	}
+	.media-card video {
+		width: 100%;
+		height: 100%;
+		min-height: 100%;
+		object-fit: cover;
+		border-radius: 1.1rem;
+		background: #02060b;
+	}
+	.home-grid {
+		display: grid;
+		grid-template-columns: 1.1fr 0.9fr;
+		gap: 1.25rem;
+	}
+	.stacked-links {
+		display: grid;
+		gap: 0.75rem;
+		margin-top: 1rem;
+	}
+	.stacked-links a {
+		display: inline-flex;
+		width: fit-content;
+		padding: 0.7rem 0.95rem;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.06);
+		color: var(--text-strong);
+	}
+	.section-block {
+		padding-top: 2.75rem;
+		padding-bottom: 1rem;
+	}
+	.section-heading {
+		margin-bottom: 1.25rem;
+	}
+	.split-heading {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+	.text-link {
+		font-weight: 700;
+	}
+	.steps-grid,
+	.feature-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+	.step-card h3,
+	.feature-card h3 {
+		font-size: 1.35rem;
+		margin-bottom: 0.65rem;
+	}
+	.feature-media {
+		margin: -0.6rem -0.6rem 1rem;
+	}
+	.feature-media img,
+	.feature-media video {
+		width: 100%;
+		height: 220px;
+		object-fit: cover;
+		border-radius: 1rem 1rem 0.4rem 0.4rem;
+		background: #03070d;
+	}
+	.final-cta {
+		margin-bottom: 5rem;
+	}
+	@media (max-width: 980px) {
+		.hero-shell,
+		.home-grid,
+		.steps-grid,
+		.feature-grid {
+			grid-template-columns: 1fr;
+		}
+		.hero-copy h1 {
+			max-width: 12ch;
+		}
+	}
+	@media (max-width: 720px) {
+		.hero-shell {
+			padding-top: 3rem;
+		}
+		.hero-points {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

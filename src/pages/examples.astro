@@ -1,0 +1,155 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { projects, site } from '../data/site';
+
+const pageTitle = `Examples | ${site.name}`;
+const pageDescription = 'Installation examples from Arcline, including residential, holiday, shelf, office, and under-cabinet WLED projects.';
+---
+
+<SiteLayout title={pageTitle} description={pageDescription} image="/continuous.JPG">
+	<main class="page-shell examples-page">
+		<section class="page-hero">
+			<p class="eyebrow">Installations</p>
+			<h1>Examples you can build on.</h1>
+			<p class="lede">
+				This page is set up so each project can keep growing. Add details, swap media, and expand any
+				section into its own page later without changing the overall structure.
+			</p>
+		</section>
+
+		<section class="project-index card">
+			<h2>Launch projects</h2>
+			<div class="index-grid">
+				{
+					projects.map((project) => (
+						<a href={`#${project.slug}`}>{project.title}</a>
+					))
+				}
+			</div>
+		</section>
+
+		<div class="projects-list">
+			{
+				projects.map((project) => (
+					<article id={project.slug} class="project card">
+						<div class="project-copy">
+							<p class="eyebrow">{project.kicker}</p>
+							<h2>{project.title}</h2>
+							<p class="project-summary">{project.summary}</p>
+							<dl>
+								<div>
+									<dt>What they wanted</dt>
+									<dd>{project.whatTheyWanted}</dd>
+								</div>
+								<div>
+									<dt>How I installed it</dt>
+									<dd>{project.howImplemented}</dd>
+								</div>
+								<div>
+									<dt>Products and look</dt>
+									<dd>{project.productsUsed}</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="project-media">
+							{
+								project.media.map((item) =>
+									item.type === 'image' ? (
+										<figure class="media-frame">
+											<img src={item.src} alt={item.alt} loading="lazy" />
+										</figure>
+									) : (
+										<figure class="media-frame video-frame">
+											<video controls playsinline preload="metadata">
+												<source src={item.src} />
+											</video>
+										</figure>
+									),
+								)
+							}
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</main>
+</SiteLayout>
+
+<style>
+	.examples-page {
+		padding-top: 3rem;
+		padding-bottom: 5rem;
+	}
+	.project-index {
+		margin-bottom: 2rem;
+	}
+	.project-index h2 {
+		font-size: 1.1rem;
+		margin-bottom: 1rem;
+	}
+	.index-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: 0.75rem;
+	}
+	.index-grid a {
+		padding: 0.9rem 1rem;
+		border-radius: 1rem;
+		background: rgba(255, 255, 255, 0.05);
+		color: var(--text-strong);
+	}
+	.projects-list {
+		display: grid;
+		gap: 1.5rem;
+	}
+	.project {
+		display: grid;
+		grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+		gap: 1.5rem;
+	}
+	.project-summary {
+		font-size: 1.1rem;
+		max-width: 42rem;
+	}
+	dl {
+		margin: 1.5rem 0 0;
+		display: grid;
+		gap: 1rem;
+	}
+	dt {
+		font-size: 0.82rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		margin-bottom: 0.35rem;
+		color: var(--accent-soft);
+	}
+	dd {
+		margin: 0;
+	}
+	.project-media {
+		display: grid;
+		gap: 1rem;
+	}
+	.media-frame {
+		margin: 0;
+	}
+	.media-frame img,
+	.media-frame video {
+		width: 100%;
+		height: 100%;
+		min-height: 240px;
+		object-fit: cover;
+		border-radius: 1.25rem;
+		background: #03070d;
+		box-shadow: var(--panel-shadow);
+	}
+	.video-frame video {
+		aspect-ratio: 16 / 9;
+	}
+	@media (max-width: 860px) {
+		.project {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
