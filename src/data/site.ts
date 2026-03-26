@@ -25,7 +25,7 @@ export const navigation = [
 export const featuredProjects = [
   'boulevard-tree',
   'kitchen-cabinet-lighting',
-  'grandparents-house',
+  'holiday-roofline-and-tree',
 ];
 
 export const processSteps = [
@@ -194,9 +194,9 @@ export const projects = [
     ],
   },
   {
-    slug: 'grandparents-house',
-    title: 'Grandparents house + backyard Christmas tree',
-    kicker: 'Family install',
+    slug: 'holiday-roofline-and-tree',
+    title: 'Holiday roofline + backyard Christmas tree',
+    kicker: 'Client project',
     summary:
       'They wanted to give me a second playground to see what I could do at the next level. This was my first more advanced install and I worked out a lot of the kinks here that I still use in my installs today.',
     whatTheyWanted:
@@ -240,9 +240,9 @@ export const projects = [
     ],
   },
   {
-    slug: 'aunt-and-uncle',
-    title: 'Aunt and uncle',
-    kicker: 'Family install',
+    slug: 'dotted-roofline-install',
+    title: 'Dotted roofline install',
+    kicker: 'Client project',
     summary:
       'A residential install focused on a polished finish and straightforward control.',
     whatTheyWanted:
@@ -295,7 +295,7 @@ export const lightStyles = [
     description:
       'Holiday lighting can stay classic and warm one night, then shift to animated scenes the next without restringing the tree.',
     bestFor:
-      'Indoor Christmas trees, outdoor trees, seasonal displays, and family-focused holiday installs.',
+      'Indoor Christmas trees, outdoor trees, seasonal displays, and home holiday installs.',
     image: '/backtree.png',
   },
   {
